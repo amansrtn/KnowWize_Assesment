@@ -8,11 +8,13 @@ from fastapi.responses import JSONResponse
 import logging
 import json5
 from openai import OpenAI
+from apikey import myapikey
+
 
 app = FastAPI()
 
 client = OpenAI(
-    api_key="",
+    api_key=myapikey(),
 )
 
 logging.basicConfig(level=logging.INFO)
@@ -46,6 +48,15 @@ def extract_text_from_pdf(file):
         #         text += " " + txt + "\n"
         if len(text) > 3500:
             break
+    if len(text) == 0:
+        for page_num in range(len(pdf_reader.pages)):
+            pdf_text = pdf_reader.pages[page_num].extract_text(Tj_sep=" ", TJ_sep=" ")
+            txt_parts = pdf_text.split("\n")
+            txt = "  ".join(txt_parts).lower()
+            text += f"\n\n Chapter {i} \n " + txt + "\n"
+            i += 1
+            if len(text) > 3500:
+                break
     return text
 
 
