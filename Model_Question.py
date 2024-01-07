@@ -3,15 +3,15 @@ import json
 import re
 import PyPDF2
 from click import File
-from fastapi import FastAPI, UploadFile, HTTPException
+from fastapi import Depends, FastAPI, UploadFile, HTTPException
 from fastapi.responses import JSONResponse
 import logging
 import json5
 from openai import OpenAI
-from apikey import myapikey
-
+from myapikey import myapikey
 
 app = FastAPI()
+
 
 client = OpenAI(
     api_key=myapikey(),
@@ -74,10 +74,12 @@ def chat_gpt(prompt, num_questions, difficulty, types):
                 the question difficulty level should be around
                 {difficulty}.Ensure that questions 
                 cover all chapters within the book text I Provided, 
-                it is must that there should be diffrent type questions but within {type} only
+                it is must that there should be diffrent type questions but within {type} and cover all type
                 and they should cover question from every 
                 chapter not from only one chapter, 
-                The Output YOU Provide MUST BE IN WELL FORMATED JSON
+                The Output YOU Provide MUST BE IN WELL FORMATED JSON if it is mcq then it must include options,
+                if it is fill in the blanks it should include _____ at the position it is must to 
+                include all {type} types of question.
                 The book text data is given below:\n\n{prompt}""",
             }
         ],
@@ -88,7 +90,7 @@ def chat_gpt(prompt, num_questions, difficulty, types):
 
 @app.post("/")
 async def generate_quiz(
-    pdf_file: UploadFile = File(...),
+    pdf_file: UploadFile,
     num_questions: int = 20,
     difficulty: str = "medium",
     types: str = "MCQ , True/False and Fill in The Blanks",
