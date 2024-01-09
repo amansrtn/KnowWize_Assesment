@@ -3,7 +3,7 @@ The Function Through Which the API Can Be Tested Is Given Below OR You Can Run s
 
     def send_post_request():
     
-        url = "https://knowwize-aman-assesment.onrender.com/"
+        url = "https://knowwize-aman-assesment.onrender.com"
        
         pdf_file_path = "Python Notes.pdf"
         
