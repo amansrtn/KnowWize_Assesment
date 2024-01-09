@@ -1,4 +1,4 @@
-The Function Through Which the API Can Be Tested Is Given Below OR You Can Run 
+The Function Through Which the API Can Be Tested Is Given Below OR You Can Run send_req.py
 
 
     def send_post_request():
