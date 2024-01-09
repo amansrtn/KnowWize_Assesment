@@ -2,7 +2,7 @@ import requests
 
 
 def send_post_request():
-    url = "https://knowwize-aman-assesment.onrender.com/"
+    url = "https://knowwize-aman-assesment.onrender.com"
     pdf_file_path = "Python Notes.pdf"
     data = {
         "num_questions": "20",
